@@ -114,6 +114,20 @@ export function LoginPage() {
             <h1 style={{ fontSize: 24, fontWeight: 700, color: '#0F172A', marginBottom: 8 }}>
                 Welcome Back
             </h1>
+            <button
+                onClick={() => navigate('/register')}
+                style={{
+                    marginBottom: 24,
+                    background: 'none',
+                    border: 'none',
+                    color: '#22C55E',
+                    fontSize: 14,
+                    fontWeight: 600,
+                    cursor: 'pointer'
+                }}
+            >
+                New here? Create Account
+            </button>
             <p style={{ fontSize: 14, color: '#64748B', textAlign: 'center', marginBottom: 32, maxWidth: 280 }}>
                 {step === 'mobile'
                     ? 'Enter your registered mobile number to continue'

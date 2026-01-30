@@ -5,6 +5,7 @@ import { AuthGuard, PublicGuard } from './guards';
 
 import { QrLandingPage } from '@/features/qr/QrLandingPage';
 import { LoginPage } from '@/features/auth/LoginPage';
+import { RegisterPage } from '@/features/auth/RegisterPage';
 import { HomePage } from '@/features/dashboard/HomePage';
 import { HistoryPage } from '@/features/history/HistoryPage';
 import { PaymentPage } from '@/features/payment/PaymentPage';
@@ -24,6 +25,14 @@ export const router = createBrowserRouter([
         element: (
             <PublicGuard>
                 <LoginPage />
+            </PublicGuard>
+        ),
+    },
+    {
+        path: '/register',
+        element: (
+            <PublicGuard>
+                <RegisterPage />
             </PublicGuard>
         ),
     },

@@ -44,7 +44,7 @@ export const sendOtp = async (mobile: string): Promise<{ success: boolean; error
     try {
         await fetchJson('/auth/request-otp', {
             method: 'POST',
-            body: JSON.stringify({ phone: `+91${mobile}` }),
+            body: JSON.stringify({ phone: `+91${mobile}`, userType: 'household' }),
         });
         return { success: true };
     } catch (error: any) {
@@ -56,7 +56,7 @@ export const verifyOtp = async (mobile: string, otp: string): Promise<{ success:
     try {
         const data: any = await fetchJson('/auth/verify-otp', {
             method: 'POST',
-            body: JSON.stringify({ phone: `+91${mobile}`, otp }),
+            body: JSON.stringify({ phone: `+91${mobile}`, code: otp, userType: 'household' }),
         });
 
         // Store token
@@ -76,6 +76,31 @@ export const verifyOtp = async (mobile: string, otp: string): Promise<{ success:
     }
 };
 
+// ==================== REGISTRATION ====================
+
+export const registerHousehold = async (data: {
+    unitNumber: string;
+    householdPhone: string;
+    residentName: string;
+    latitude: number;
+    longitude: number;
+}): Promise<{ success: boolean; tokens?: any; error?: string }> => {
+    try {
+        const response: any = await fetchJson('/household/register', {
+            method: 'POST',
+            body: JSON.stringify(data),
+        });
+
+        if (response.tokens) {
+            localStorage.setItem('token', response.tokens.accessToken);
+        }
+
+        return { success: true, tokens: response.tokens };
+    } catch (error: any) {
+        return { success: false, error: error.message };
+    }
+};
+
 // ==================== DASHBOARD SERVICES ====================
 
 export const getDashboard = async (unitId: string) => {
@@ -84,12 +109,17 @@ export const getDashboard = async (unitId: string) => {
     // For now, let's just return what the mock did if backend not ready?
     // Actually backend IS ready.
     try {
-        // Backend doesn't have a single "dashboard" endpoint for household yet, 
-        // it has collection history, payments etc.
-        // We might need to aggregate or use the history endpoint.
-        // GET /api/household/history
-        const history = await fetchJson('/household/history');
-        return { success: true, data: history };
+        const data = await fetchJson<any>('/household/dashboard');
+        return { success: true, data };
+    } catch (error: any) {
+        return { success: false, error: error.message };
+    }
+};
+
+export const getQR = async () => {
+    try {
+        const data = await fetchJson<any>('/household/qr');
+        return { success: true, data };
     } catch (error: any) {
         return { success: false, error: error.message };
     }

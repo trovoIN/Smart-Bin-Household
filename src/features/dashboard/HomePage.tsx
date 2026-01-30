@@ -12,7 +12,8 @@ import {
 } from 'lucide-react';
 
 import { LoadingDashboard } from '@/components/common/LoadingCard';
-import { getDashboard } from '@/mock/services';
+import { DigitalQR } from '@/components/DigitalQR';
+import { getDashboard } from '@/lib/api';
 import { useSessionStore } from '@/store/sessionStore';
 import { useHouseholdStore } from '@/store/householdStore';
 import { formatCurrency, formatMonth, getPaymentStatusLabel } from '@/utils/format';
@@ -127,38 +128,54 @@ export function HomePage() {
                                 borderRadius: '50%',
                                 background: '#F1F5F9',
                                 overflow: 'hidden',
-                                flexShrink: 0
+                                flexShrink: 0,
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center'
                             }}>
-                                <img
-                                    src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${collector.id}`}
-                                    alt={collector.name}
-                                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                                />
+                                {collector ? (
+                                    <img
+                                        src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${collector.id}`}
+                                        alt={collector.name}
+                                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                                    />
+                                ) : (
+                                    <User style={{ width: 20, height: 20, color: '#94A3B8' }} />
+                                )}
                             </div>
                             <div style={{ flex: 1, minWidth: 0 }}>
                                 <p style={{ fontSize: 10, color: '#64748B' }}>Your Collector</p>
-                                <p style={{ fontSize: 14, fontWeight: 600, color: '#0F172A', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{collector.name}</p>
+                                <p style={{ fontSize: 14, fontWeight: 600, color: '#0F172A', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                                    {collector ? collector.name : 'Unassigned'}
+                                </p>
                                 <div style={{ display: 'flex', alignItems: 'center', gap: 4, marginTop: 2 }}>
                                     <Phone style={{ width: 12, height: 12, color: '#64748B' }} />
-                                    <span style={{ fontSize: 12, color: '#64748B' }}>{collector.mobile}</span>
+                                    <span style={{ fontSize: 12, color: '#64748B' }}>
+                                        {collector ? collector.mobile : '---'}
+                                    </span>
                                 </div>
                             </div>
-                            <button style={{
-                                width: 36,
-                                height: 36,
-                                borderRadius: '50%',
-                                background: 'rgba(34, 197, 94, 0.1)',
-                                border: 'none',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                cursor: 'pointer',
-                                flexShrink: 0
-                            }}>
-                                <Phone style={{ width: 16, height: 16, color: '#22C55E' }} />
-                            </button>
+                            {collector && (
+                                <button style={{
+                                    width: 36,
+                                    height: 36,
+                                    borderRadius: '50%',
+                                    background: 'rgba(34, 197, 94, 0.1)',
+                                    border: 'none',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    cursor: 'pointer',
+                                    flexShrink: 0
+                                }}>
+                                    <Phone style={{ width: 16, height: 16, color: '#22C55E' }} />
+                                </button>
+                            )}
                         </div>
                     </div>
+
+                    {/* Digital QR */}
+                    <DigitalQR />
 
                     {/* Payment Card */}
                     <button
