@@ -1,6 +1,6 @@
 import type { Session } from '@/types/models';
 
-const API_BASE_URL = 'http://localhost:3000/api';
+const API_BASE_URL = 'https://smart-bin-backend-bvo8.onrender.com/api';
 
 export class ApiError extends Error {
     public status?: number;
@@ -103,11 +103,7 @@ export const registerHousehold = async (data: {
 
 // ==================== DASHBOARD SERVICES ====================
 
-export const getDashboard = async (unitId: string) => {
-    // Implement dashboard fetch
-    // return fetchJson(`/household/${unitId}/dashboard`);
-    // For now, let's just return what the mock did if backend not ready?
-    // Actually backend IS ready.
+export const getDashboard = async () => {
     try {
         const data = await fetchJson<any>('/household/dashboard');
         return { success: true, data };
