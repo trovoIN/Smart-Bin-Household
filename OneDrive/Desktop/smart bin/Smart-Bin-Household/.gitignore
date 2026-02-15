@@ -1,0 +1,13 @@
+# Never track anything outside the project folder
+# (safety ignore patterns)
+**/AppData/
+**/Downloads/
+**/Documents/
+**/Desktop/
+**/.android/
+**/.expo/
+**/.gitconfig
+**/NTUSER.*
+**/*.LOG*
+**/*.TM*
+
