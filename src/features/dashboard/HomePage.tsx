@@ -30,7 +30,7 @@ export function HomePage() {
 
             setDashboardLoading(true);
             try {
-                const result = await getDashboard(session.unitId);
+                const result = await getDashboard();
                 if (result.success && result.data) {
                     setDashboardData(result.data);
                 }
